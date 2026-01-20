@@ -1,0 +1,26 @@
+[dependency-groups]
+dev = [
+  "mypy>=1.19.1",
+  "pandas-stubs>=2.3.3.251219",
+  "ruff>=0.14.11",
+]
+
+[project]
+dependencies = [
+  "matplotlib>=3.10.8",
+  "pandas>=2.3.3",
+  "scikit-learn>=1.7.2",
+  "scikit-learn-stubs>=0.0.3",
+  "scipy>=1.15.3",
+]
+name = "homl"
+readme = "README.md"
+requires-python = "==3.13.*"
+version = "0.1.0"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["C408", "COM812", "D", "ERA001", "LOG015", "N806"]
+select = ["ALL"]
