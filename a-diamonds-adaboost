@@ -59,4 +59,4 @@ model = train(X_train, y_train)
 evaluate(model, X_test, y_test)
 
 # Scaling seems to have little/no effect.
-# Specifying max_depth on DecisionTreeRegressor: 88% -> 98%
+# Specifying max_depth on DecisionTreeRegressor: 88% -> 96%
