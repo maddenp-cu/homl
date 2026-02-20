@@ -20,16 +20,16 @@ data/urls.csv:
 	curl https://archive.ics.uci.edu/static/public/967/phiusiil+phishing+url+dataset.zip | funzip >$@
 
 format:
-	$(RUN) ruff format $(EXPERIMENTS)
-	$(RUN) ruff check --select I --fix $(EXPERIMENTS)
+	$(RUN) ruff format a-*
+	$(RUN) ruff check --select I --fix a-*
 
 lint:
-	$(RUN) ruff check $(EXPERIMENTS)
+	$(RUN) ruff check a-*
 
 test: lint typecheck
 
 typecheck:
-	$(RUN) mypy --scripts-are-modules $(EXPERIMENTS)
+	$(RUN) mypy --scripts-are-modules a-*
 
 $(EXPERIMENTS):
 	uv run ./$@

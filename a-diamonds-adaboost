@@ -8,8 +8,9 @@ import pandas as pd
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeRegressor
 
-estimator = AdaBoostRegressor
+ESTIMATOR = AdaBoostRegressor
 
 logging.basicConfig(
     datefmt="%Y-%m-%dT%H:%M:%S",
@@ -18,7 +19,7 @@ logging.basicConfig(
 )
 
 
-def evaluate(model: estimator, X_test: np.ndarray, y_test: np.ndarray) -> None:
+def evaluate(model: ESTIMATOR, X_test: np.ndarray, y_test: np.ndarray) -> None:
     logging.info("Score: %s", model.score(X_test, y_test))
 
 
@@ -39,9 +40,13 @@ def split(data: pd.DataFrame) -> list[np.ndarray]:
     return [a.to_numpy() for a in train_test_split(X, y)]
 
 
-def train(X_train: np.ndarray, y_train: np.ndarray) -> estimator:
+def train(X_train: np.ndarray, y_train: np.ndarray) -> ESTIMATOR:
     logging.info("Training model")
-    model = estimator(learning_rate=0.5, n_estimators=10)
+    model = ESTIMATOR(
+        estimator=DecisionTreeRegressor(max_depth=8),
+        learning_rate=0.5,
+        n_estimators=10,
+    )
     model.fit(X_train, y_train)
     return model
 
@@ -52,3 +57,6 @@ X_train, X_test, y_train, y_test = split(data)
 X_train, X_test = prep(X_train, X_test)
 model = train(X_train, y_train)
 evaluate(model, X_test, y_test)
+
+# Scaling seems to have little/no effect.
+# Specifying max_depth on DecisionTreeRegressor: 88% -> 98%
