@@ -41,7 +41,7 @@ def split(data: pd.DataFrame) -> list[np.ndarray]:
 
 def train(X_train: np.ndarray, y_train: np.ndarray) -> estimator:
     logging.info("Training model")
-    model = estimator()
+    model = estimator(learning_rate=0.5, n_estimators=10)
     model.fit(X_train, y_train)
     return model
 
