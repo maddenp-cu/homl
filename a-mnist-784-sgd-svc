@@ -28,12 +28,12 @@ def sgd() -> None:
     logging.info("Cross-validating")
     y_pred = cross_val_predict(classifier, X_train, y_train, cv=3)
     logging.info("f1 score: %s", f1_score(y_train, y_pred, average="weighted"))
-    logging.info("Scaling data")
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train.astype("float64"))
-    logging.info("Cross-validating")
-    y_pred_scaled = cross_val_predict(classifier, X_train_scaled, y_train, cv=3)
-    logging.info("f1 score: %s", f1_score(y_train, y_pred_scaled, average="weighted"))
+    # logging.info("Scaling data")
+    # scaler = StandardScaler()
+    # X_train_scaled = scaler.fit_transform(X_train.astype("float64"))
+    # logging.info("Cross-validating")
+    # y_pred_scaled = cross_val_predict(classifier, X_train_scaled, y_train, cv=3)
+    # logging.info("f1 score: %s", f1_score(y_train, y_pred_scaled, average="weighted"))
 
 
 def svc() -> None:

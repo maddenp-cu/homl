@@ -1,12 +1,13 @@
-RUN     := uv run --dev
+EXPERIMENTS := $(wildcard a-*)
+RUN := uv run --dev
 TARGETS := data format lint test typecheck
 
 .ONESHELL:
 
-.PHONY: $(TARGETS)
+.PHONY: $(TARGETS) $(EXPERIMENTS)
 
 all:
-	$(error Valid targets are: $(TARGETS))
+	$(error Give an experiment name or one of: $(TARGETS))
 
 data: data/diamonds.csv data/urls.csv
 
@@ -29,3 +30,6 @@ test: lint typecheck
 
 typecheck:
 	$(RUN) mypy .
+
+$(EXPERIMENTS):
+	uv run ./$@
