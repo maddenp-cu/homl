@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import logging
 from pathlib import Path
 
@@ -19,6 +21,7 @@ logging.basicConfig(
 
 
 def sgd() -> None:
+    logging.info("Stochastic Gradient Descent Classifier")
     n = 60000
     X_train, _X_test, y_train, _y_test = X[:n], X[n:], y[:n], y[n:]
     classifier = SGDClassifier(random_state=42)
@@ -34,6 +37,7 @@ def sgd() -> None:
 
 
 def svc() -> None:
+    logging.info("Support Vector Classifier")
     n = 2000
     X_train, _X_test, y_train, _y_test = X[:n], X[n:], y[:n], y[n:]
     classifier = SVC(C=10, random_state=42)
@@ -69,4 +73,5 @@ cachedir = Path(__file__).parent / ".cache"
 mnist = fetch_openml(dataset, as_frame=False, data_home=str(cachedir))
 X, y = mnist.data, mnist.target
 
+sgd()
 svc()
