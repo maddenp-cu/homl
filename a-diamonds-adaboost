@@ -3,9 +3,11 @@
 import logging
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 estimator = AdaBoostRegressor
 
@@ -16,35 +18,37 @@ logging.basicConfig(
 )
 
 
-def clean(data: pd.DataFrame) -> pd.DataFrame:
-    logging.info("Cleaning")
-    return data
-
-
-def evaluate(model: estimator, X_test: pd.DataFrame, y_test: pd.DataFrame) -> None:
+def evaluate(model: estimator, X_test: np.ndarray, y_test: np.ndarray) -> None:
     logging.info("Score: %s", model.score(X_test, y_test))
 
 
 def load() -> pd.DataFrame:
     path = Path("data/diamonds.csv")
-    logging.info("Loading %s", path)
+    logging.info("Loading data: %s", path)
     return pd.read_csv(path)
 
 
-def split(data: pd.DataFrame) -> list[pd.DataFrame]:
-    logging.info("Splitting")
+def prep(X_train: np.ndarray, X_test: np.ndarray) -> list[np.ndarray]:
+    logging.info("Preparing samples")
+    return [StandardScaler().fit_transform(a) for a in (X_train, X_test)]
+
+
+def split(data: pd.DataFrame) -> list[np.ndarray]:
+    logging.info("Splitting data")
     X, y = data.drop(columns=["price"]), data["price"]
-    return train_test_split(X, y, random_state=42)
+    return [a.to_numpy() for a in train_test_split(X, y)]
 
 
-def train(X_train: pd.DataFrame, y_train: pd.DataFrame) -> estimator:
-    logging.info("Training AdaBoost Regressor")
+def train(X_train: np.ndarray, y_train: np.ndarray) -> estimator:
+    logging.info("Training model")
     model = estimator()
     model.fit(X_train, y_train)
     return model
 
 
-data = clean(load())
+logging.info("AdaBoost Regressor")
+data = load()
 X_train, X_test, y_train, y_test = split(data)
+X_train, X_test = prep(X_train, X_test)
 model = train(X_train, y_train)
 evaluate(model, X_test, y_test)
