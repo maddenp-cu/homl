@@ -22,5 +22,5 @@ version = "0.1.0"
 line-length = 100
 
 [tool.ruff.lint]
-ignore = ["C408", "COM812", "D", "ERA001", "LOG015", "N806"]
+ignore = ["C408", "COM812", "D", "ERA001", "LOG015", "N803", "N806"]
 select = ["ALL"]
