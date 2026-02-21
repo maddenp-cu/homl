@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn import metrics
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -20,7 +21,10 @@ logging.basicConfig(
 
 
 def evaluate(model: ESTIMATOR, X_test: np.ndarray, y_test: np.ndarray) -> None:
-    logging.info("Score: %s", model.score(X_test, y_test))
+    predictions = model.predict(X_test)
+    logging.info("MAE: %s", round(metrics.mean_absolute_error(predictions, y_test), 2))
+    logging.info("R2: %s", round(metrics.r2_score(predictions, y_test), 2))
+    logging.info("RMSE: %s", round(metrics.root_mean_squared_error(predictions, y_test), 2))
 
 
 def load() -> pd.DataFrame:
